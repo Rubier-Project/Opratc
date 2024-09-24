@@ -7,6 +7,7 @@ import time
 import rich
 import os
 import sys
+import platform
 
 os.system("")
 print("\033[00m", end="")
@@ -81,14 +82,14 @@ class Opratc(object):
         except UnicodeDecodeError:
             return False
 
-# print(asyncio.run(AparatClient().login("imHostX", "enterItforX23")))
 buffer = BufferArgv.BufferConsole()
 console = rich.console.Console()
 client = AparatClient()
 opratc = Opratc()
 
-opratc.log("Software Homepage \033[4m\033[36mhttps://github.com/Rubier-Project/Opratc\033[00m")
-console.print()
+if platform.system() == "Windows":
+    opratc.log("Software Homepage \033[4m\033[36mhttps://github.com/Rubier-Project/Opratc\033[00m")
+    console.print()
 
 @buffer.addFlag("-t", "--timeout", obj_type="number")
 def onTimeout(to_obj: BufferArgv.Things):
