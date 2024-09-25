@@ -7,7 +7,6 @@ import time
 import rich
 import os
 import sys
-import platform
 
 os.system("")
 print("\033[00m", end="")
@@ -87,9 +86,8 @@ console = rich.console.Console()
 client = AparatClient()
 opratc = Opratc()
 
-if platform.system() == "Windows":
-    opratc.log("Software Homepage \033[4m\033[36mhttps://github.com/Rubier-Project/Opratc\033[00m")
-    console.print()
+console.log("Software Homepage https://github.com/Rubier-Project/Opratc")
+console.print()
 
 @buffer.addFlag("-t", "--timeout", obj_type="number")
 def onTimeout(to_obj: BufferArgv.Things):
@@ -97,7 +95,7 @@ def onTimeout(to_obj: BufferArgv.Things):
         to_obj.t = "DEFAULT"
         to_obj.timeout = "DEFAULT"
     else:
-        time_outed = to_obj.t if to_obj.t != "NONECALL" and type(to_obj.t) == int else to_obj.timeout if to_obj.timeout != "NONECALL" and type(to_obj.timeout) == int  else "DEFAULT"
+        time_outed = to_obj.t if to_obj.t != "NONECALL" or to_obj.t != "" and type(to_obj.t) == int else to_obj.timeout if to_obj.timeout != "NONECALL" or to_obj.timeout != "" and type(to_obj.timeout) == int  else "DEFAULT"
         if time_outed in ("Null", "NONECALL"):
             to_obj.t = "DEFAULT"
             to_obj.timeout = "DEFAULT"
@@ -113,8 +111,18 @@ def onFile(file_obj: BufferArgv.Things):
             opratc.log("Flag \033[92m'-o'\033[00m | \033[92m'--open'\033[00m not found")
             exit(1)
 
-    else: 
-        path = file_obj.o if file_obj.o != "Null" and file_obj.o != "" else file_obj.open if file_obj.open != "Null" and file_obj.open != "" else "Null"
+    else:
+        path = "Null"
+
+        if not file_obj.o in ("Null", "NONECALL", ""):
+            path = file_obj.o 
+        
+        elif not file_obj.open in ("Null", "NONECALL", ""):
+            path = file_obj.open
+        
+        else:
+            opratc.err("Path is not found")
+            exit(1)
 
         if path in ("Null", "NONECALL"):
             opratc.err("Path is not found")
@@ -149,8 +157,17 @@ def onUsername(user_obj: BufferArgv.Things):
             exit(1)
     
     else:
-        username = user_obj.u if user_obj.u != "Null" and user_obj.u != "" else user_obj.username if user_obj.username != "Null" and user_obj.username != "" else "Null"
+        username = "Null"
 
+        if not user_obj.u in ("Null", "NONECALL", ""):
+            username = user_obj.u 
+        
+        elif not user_obj.username in ("Null", "NONECALL", ""):
+            username = user_obj.username
+        
+        else:
+            opratc.err("Path is not found")
+            exit(1)
         if username in ("Null", "NONECALL"):
             opratc.err("Username was not set or not found")
             exit(1)
@@ -168,9 +185,12 @@ def onUsername(user_obj: BufferArgv.Things):
                     opratc.err(f"Error for {username}:{password} ( \033[92m{res['message']}\033[00m )")
                 elif res['login']['type'] == "success":
                     opratc.log("Account cracked")
+                    opratc.log(f"Key ( Password ): {password}")
                     opratc.log(f"Hash Key: \033[92m'{res['key']}'\033[00m")
                     rich.print(res['login'])
                     exit(1)
+                else:
+                    opratc.err(f"\033[91m'{password}'\033[00m")
 
 @buffer.addFlag("-h", "--help", mode="on_call")
 def onHelp(obj: BufferArgv.Things):
