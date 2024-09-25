@@ -146,7 +146,7 @@ def onFile(file_obj: BufferArgv.Things):
                 opratc.err("File has invalid content")
                 exit(1)
 
-            else:splitted =  content.split("\n");setattr(file_obj, "password_list", splitted);opratc.log(f"\033[93m{len(splitted) - 1}\033[00m Password added")
+            else:splitted =  content.split("\n").remove("");setattr(file_obj, "password_list", splitted);opratc.log(f"\033[93m{len(splitted)}\033[00m Password added")
 
 @buffer.addFlag("-u", "--username")
 def onUsername(user_obj: BufferArgv.Things):
