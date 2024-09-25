@@ -185,7 +185,7 @@ def onUsername(user_obj: BufferArgv.Things):
                     opratc.err(f"Error for {username}:{password} ( \033[92m{res['message']}\033[00m )")
                 elif res['login']['type'] == "success":
                     opratc.log("Account cracked")
-                    opratc.log(f"Key ( Password ): {password}")
+                    opratc.log(f"Key ( Password ): \033[92m'{password}'\033[00m")
                     opratc.log(f"Hash Key: \033[92m'{res['key']}'\033[00m")
                     rich.print(res['login'])
                     exit(1)
