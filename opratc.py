@@ -214,5 +214,5 @@ buffer.setFilter([
     "-t", "--timeout",
     "-o", "--open",
     "-u", "--username"
-], err_message="[\033[91m-\033[00m]-[\033[93m{ontime}\033[00m]> Invalid argument: B@ARGV")
+], err_message=f"[\033[91m-\033[00m]-[\033[93m{time.strftime('%H:%M:%S')}\033[00m]> Invalid argument: B@ARGV")
 buffer.trust()
